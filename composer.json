@@ -1,5 +1,5 @@
 {
-    "name": "omnipay/ideal",
+    "name": "omnipay/ideal_avoran",
     "type": "library",
     "description": "iDeal driver for the Omnipay payment processing library",
     "keywords": [
@@ -14,6 +14,9 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Pieter Verloop",
+            "email": "pieter@deft.nl"
+        }, {
             "name": "Mark de Groot",
             "email": "mail@markdegroot.nl"
         },
@@ -23,7 +26,7 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Omnipay\\Ideal\\" : "src/" }
+        "psr-0": { "Omnipay\\Ideal\\" : "src/" }
     },
     "require": {
         "omnipay/common": "~2.2"
