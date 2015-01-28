@@ -13,7 +13,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "omnipay/ideal": "1.0.*@dev"
+        "avoran/omnipay-ideal": "1.0.*@dev"
     }
 }
 ```

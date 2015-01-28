@@ -1,5 +1,5 @@
 {
-    "name": "omnipay/ideal_avoran",
+    "name": "avoran/omnipay-ideal",
     "type": "library",
     "description": "iDeal driver for the Omnipay payment processing library",
     "keywords": [
@@ -10,7 +10,7 @@
         "pay",
         "payment"
     ],
-    "homepage": "https://github.com/markdegrootnl/omnipay-ideal",
+    "homepage": "https://github.com/Avoran/omnipay-ideal",
     "license": "MIT",
     "authors": [
         {
@@ -19,10 +19,6 @@
         }, {
             "name": "Mark de Groot",
             "email": "mail@markdegroot.nl"
-        },
-        {
-            "name": "Omnipay Contributors",
-            "homepage": "https://github.com/markdegrootnl/omnipay-ideal/contributors"
         }
     ],
     "autoload": {
