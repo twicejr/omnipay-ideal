@@ -14,6 +14,8 @@ namespace Omnipay\Ideal\Message;
 use DOMDocument;
 use DOMNode;
 use DOMXPath;
+use Exception;
+use Omnipay\Common\Message\RequestInterface;
 use SimpleXMLElement;
 use Omnipay\Common\Exception\InvalidRequestException;
 
@@ -98,10 +100,20 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('issuer', $value);
     }
 
+    public function getPurchaseId()
+    {
+        return $this->getParameter('purchaseId');
+    }
+
+    public function setPurchaseId($value)
+    {
+        return $this->setParameter('purchaseId', $value);
+    }
+
     protected function getBaseData($action)
     {
         $this->validate('acquirer', 'testMode', 'merchantId', 'subId', 'publicKeyPath', 'privateKeyPath', 'privateKeyPassphrase');
-        
+
         $data = new SimpleXMLElement("<?xml version='1.0' encoding='UTF-8'?><$action />");
         $data->addAttribute('xmlns', static::IDEAL_NS);
         $data->addAttribute('version', static::IDEAL_VERSION);
@@ -260,11 +272,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->response = $this->parseResponse($this, $httpResponse->xml());
     }
 
-    public function sendData($data){
+    public function sendData($data) {
         throw new Exception('This method is not implemented.');
     }
 
-    public abstract function parseResponse(\Omnipay\Common\Message\RequestInterface $request, $data);
+    public abstract function parseResponse(RequestInterface $request, $data);
 
     public function getEndpoint()
     {

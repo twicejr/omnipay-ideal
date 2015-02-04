@@ -10,6 +10,7 @@
  */
 
 namespace Omnipay\Ideal\Message;
+use Omnipay\Common\Message\RequestInterface;
 
 /**
  * iDeal Complete Purchase Request
@@ -24,11 +25,12 @@ class CompletePurchaseRequest extends AbstractRequest
         $data->Merchant->merchantID = $this->getMerchantId();
         $data->Merchant->subID = $this->getSubId();
         $data->Transaction->transactionID = $this->getTransactionId();
-        
+
         return $data;
     }
 
-     public function parseResponse(\Omnipay\Common\Message\RequestInterface $request, $data){
+    /** @return CompletePurchaseResponse */
+     public function parseResponse(RequestInterface $request, $data){
     	return new CompletePurchaseResponse($request, $data);
     }
 }

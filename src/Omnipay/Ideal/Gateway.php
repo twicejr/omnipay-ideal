@@ -12,6 +12,9 @@
 namespace Omnipay\Ideal;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Ideal\Message\CompletePurchaseRequest;
+use Omnipay\Ideal\Message\FetchIssuersRequest;
+use Omnipay\Ideal\Message\PurchaseRequest;
 
 /**
  * iDeal Gateway
@@ -88,16 +91,19 @@ class Gateway extends AbstractGateway
         return $this->setParameter('privateKeyPassphrase', $value);
     }
 
+    /** @return FetchIssuersRequest */
     public function fetchIssuers(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Ideal\Message\FetchIssuersRequest', $parameters);
     }
 
+    /** @return PurchaseRequest */
     public function purchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Ideal\Message\PurchaseRequest', $parameters);
     }
 
+    /** @return CompletePurchaseRequest */
     public function completePurchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Ideal\Message\CompletePurchaseRequest', $parameters);

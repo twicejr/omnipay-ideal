@@ -10,6 +10,7 @@
  */
 
 namespace Omnipay\Ideal\Message;
+use Omnipay\Common\Message\RequestInterface;
 
 /**
  * iDeal Purchase Request
@@ -18,14 +19,14 @@ class PurchaseRequest extends AbstractRequest
 {
     public function getData()
     {
-        $this->validate('issuer', 'amount', 'currency', 'returnUrl');
+        $this->validate('issuer', 'amount', 'currency', 'returnUrl', 'purchaseId');
 
         $data = $this->getBaseData('AcquirerTrxReq');
         $data->Issuer->issuerID = $this->getIssuer();
         $data->Merchant->merchantID = $this->getMerchantId();
         $data->Merchant->subID = $this->getSubId();
         $data->Merchant->merchantReturnURL = $this->getReturnUrl();
-        $data->Transaction->purchaseID = $this->getTransactionId();
+        $data->Transaction->purchaseID = $this->getPurchaseId();
         $data->Transaction->amount = $this->getAmount();
         $data->Transaction->currency = $this->getCurrency();
         $data->Transaction->expirationPeriod = static::EXPIRATION_PERIOD;
@@ -36,7 +37,8 @@ class PurchaseRequest extends AbstractRequest
         return $data;
     }
 
-    public function parseResponse(\Omnipay\Common\Message\RequestInterface $request, $data){
+    /** @return PurchaseResponse */
+    public function parseResponse(RequestInterface $request, $data){
         return new PurchaseResponse($request, $data);
     }
 }

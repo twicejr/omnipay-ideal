@@ -10,47 +10,40 @@
  */
 
 namespace Omnipay\Ideal\Message;
+use Omnipay\Ideal\Exception\ErrorResponseException;
 
 /**
  * iDeal Response
  */
 class PurchaseResponse extends AbstractResponse
 {
-
 	public function rootElementExists(){
-        return isset($this->data->Transaction) && isset($this->data->Issuer);
+        return isset($this->getData()->Transaction) && isset($this->getData()->Issuer);
     }
 
     public function getIssuer() {
-		return $this->data->Issuer;
+		if ($this->isSuccessful()) return $this->getData()->Issuer;
+		throw new ErrorResponseException();
 	}
 
 	public function getTransaction(){
-		return $this->data->Transaction;
+		if ($this->isSuccessful()) return $this->getData()->Transaction;
+		throw new ErrorResponseException();
 	}
 
 	public function getIssuerAuthenticationURL() {
-		if (isset($this->data->Issuer)) {
-			return (string)$this->data->Issuer->issuerAuthenticationURL;
-		}
+		return (string) $this->getIssuer()->issuerAuthenticationURL;
 	}
 
 	public function getTransactionID(){
-		if (isset($this->data->Transaction)) {
-			return (string)$this->data->Transaction->transactionID;
-		}
+		return (string) $this->getTransaction()->transactionID;
 	}
 
 	public function getTransactionCreateDateTimestamp() {
-		if (isset($this->data->Transaction)) {
-			return (string)$this->data->Transaction->transactionCreateDateTimestamp;
-		}
+		return (string) $this->getTransaction()->transactionCreateDateTimestamp;
 	}
 
 	public function getPurchaseID() {
-		if (isset($this->data->Transaction)) {
-			return (string)$this->data->Transaction->purchaseID;
-		}
+		return (string) $this->getTransaction()->purchaseID;
 	}
-
 }

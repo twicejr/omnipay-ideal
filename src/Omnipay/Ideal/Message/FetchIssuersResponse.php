@@ -10,6 +10,7 @@
  */
 
 namespace Omnipay\Ideal\Message;
+use Omnipay\Ideal\Exception\ErrorResponseException;
 
 /**
  * iDeal Response
@@ -17,25 +18,24 @@ namespace Omnipay\Ideal\Message;
 class FetchIssuersResponse extends AbstractResponse
 {
     public function rootElementExists(){
-        return isset($this->data->Directory);
+        return isset($this->getData()->Directory);
     }
 
     public function getDirectory() {
-        return $this->data->Directory;
+        if ($this->isSuccessful()) return $this->getData()->Directory;
+        throw new ErrorResponseException();
     }
-    
+
     public function getIssuers() {
-        if (isset($this->data->Directory)) {
-            $issuers = array();
+        $issuers = array();
 
-            foreach ($this->data->Directory->Country as $country) {
-                foreach ($country->Issuer as $issuer) {
-                    $id = (string) $issuer->issuerID;
-                    $issuers[(string)$country->countryNames][$id] = (string) $issuer->issuerName;
-                }
+        foreach ($this->getDirectory()->Country as $country) {
+            foreach ($country->Issuer as $issuer) {
+                $id = (string) $issuer->issuerID;
+                $issuers[(string)$country->countryNames][$id] = (string) $issuer->issuerName;
             }
-
-            return $issuers;
         }
+
+        return $issuers;
     }
 }

@@ -10,58 +10,63 @@
  */
 
 namespace Omnipay\Ideal\Message;
-
-use Omnipay\Common\Message\RedirectResponseInterface;
+use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Ideal\Exception\ErrorResponseException;
 
 /**
  * iDeal Response
  */
 abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
 {
-
     public function isSuccessful()
     {
-        return !isset($this->data->Error) && isset($this->data->Acquirer) && $this->rootElementExists();
+        return !$this->isErrorResponse() && isset($this->getData()->Acquirer) && $this->rootElementExists();
+    }
+
+    public function isErrorResponse()
+    {
+        return isset($this->getData()->Error);
     }
 
     public abstract function rootElementExists();
 
     public function getAcquirerID()
     {
-        if (isset($this->data->Acquirer)) {
-            return (string)$this->data->Acquirer->acquirerID;
-        }
+        if ($this->isSuccessful()) return (string) $this->getData()->Acquirer->acquirerID;
+        throw new ErrorResponseException();
     }
 
     public function getData() {
         return $this->data;
     }
 
+    public function getCreateDateTimeStamp()
+    {
+        return $this->getData()->createDateTimestamp;
+    }
+
     public function getError() {
-        return $this->data->Error;
+        if ($this->isErrorResponse()) return $this->getData()->Error;
+        throw new InvalidResponseException();
     }
 
     public function getErrorCode() {
-        if (isset($this->data->Error)) {
-            return (string)$this->data->Error->errorCode;
-        }
+        return $this->getError()->errorCode;
     }
 
     public function getErrorMessage() {
-        if (isset($this->data->Error)) {
-            return (string)$this->data->Error->errorMessage;
-        }
+        return $this->getError()->errorMessage;
     }
 
     public function getErrorDetail() {
-        if (isset($this->data->Error)) {
-            return (string)$this->data->Error->errorDetail;
-        }
+        return $this->getError()->errorDetail;
+    }
+
+    public function getSuggestedAction() {
+        return $this->getError()->suggestedAction;
     }
 
     public function getConsumerMessage() {
-        if (isset($this->data->Error)) {
-            return (string)$this->data->Error->consumerMessage;
-        }
+        return $this->getError()->consumerMessage;
     }
 }

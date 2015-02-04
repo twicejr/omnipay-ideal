@@ -10,66 +10,51 @@
  */
 
 namespace Omnipay\Ideal\Message;
+use Omnipay\Ideal\Exception\ErrorResponseException;
 
 /**
  * iDeal Response
  */
 class CompletePurchaseResponse extends AbstractResponse
 {
-
     public function rootElementExists(){
-        return isset($this->data->Transaction);
+        return isset($this->getData()->Transaction);
     }
 
     public function getTransaction(){
-            return $this->data->Transaction;
+        if ($this->isSuccessful()) return $this->getData()->Transaction;
+        throw new ErrorResponseException();
     }
 
     public function getTransactionID(){
-        if (isset($this->data->Transaction)) {
-            return (string)$this->data->Transaction->transactionID;
-        }
+        return (string) $this->getTransaction()->transactionID;
     }
 
     public function getStatus(){
-        if (isset($this->data->Transaction)) {
-            return (string)$this->data->Transaction->status;
-        }
+        return (string) $this->getTransaction()->status;
     }
 
     public function getStatusDateTimestamp(){
-        if (isset($this->data->Transaction)) {
-            return (string)$this->data->Transaction->statusDateTimestamp;
-        }
+        return (string) $this->getTransaction()->statusDateTimestamp;
     }
 
     public function getConsumerName(){
-        if (isset($this->data->Transaction)) {
-            return (string)$this->data->Transaction->consumerName;
-        }
+        return (string) $this->getTransaction()->consumerName;
     }
 
     public function getConsumerIBAN(){
-        if (isset($this->data->Transaction)) {
-            return (string)$this->data->Transaction->consumerIBAN;
-        }
+        return (string) $this->getTransaction()->consumerIBAN;
     }
 
     public function getConsumerBIC(){
-        if (isset($this->data->Transaction)) {
-            return (string)$this->data->Transaction->consumerBIC;
-        }
+        return (string) $this->getTransaction()->consumerBIC;
     }
 
     public function getAmount(){
-        if (isset($this->data->Transaction)) {
-            return (string)$this->data->Transaction->amount;
-        }
+        return (string) $this->getTransaction()->Amount;
     }
 
     public function getCurrency(){
-        if (isset($this->data->Transaction)) {
-            return (string)$this->data->Transaction->currency;
-        }
+        return (string) $this->getTransaction()->Currency;
     }
 }

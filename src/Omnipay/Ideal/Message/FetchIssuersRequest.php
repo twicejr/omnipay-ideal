@@ -10,6 +10,7 @@
  */
 
 namespace Omnipay\Ideal\Message;
+use Omnipay\Common\Message\RequestInterface;
 
 /**
  * iDeal Fetch Issuers Request
@@ -24,7 +25,8 @@ class FetchIssuersRequest extends AbstractRequest
         return $data;
     }
 
-    public function parseResponse(\Omnipay\Common\Message\RequestInterface $request, $data){
+    /** @return FetchIssuersResponse */
+    public function parseResponse(RequestInterface $request, $data){
     	return new FetchIssuersResponse($request, $data);
     }
 }
