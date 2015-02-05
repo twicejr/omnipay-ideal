@@ -10,6 +10,8 @@
  */
 
 namespace Omnipay\Ideal\Message;
+
+use DateTime;
 use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Ideal\Exception\ErrorResponseException;
 
@@ -40,9 +42,9 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
         return $this->data;
     }
 
-    public function getCreateDateTimeStamp()
+    public function getCreateDateTime()
     {
-        return $this->getData()->createDateTimestamp;
+        return $this->dateTimeFromData($this->getData()->createDateTimestamp);
     }
 
     public function getError() {
@@ -68,5 +70,10 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
 
     public function getConsumerMessage() {
         return $this->getError()->consumerMessage;
+    }
+
+    protected function dateTimeFromData($data)
+    {
+        return new DateTime((string) $data);
     }
 }

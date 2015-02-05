@@ -39,8 +39,8 @@ class PurchaseResponse extends AbstractResponse
 		return (string) $this->getTransaction()->transactionID;
 	}
 
-	public function getTransactionCreateDateTimestamp() {
-		return (string) $this->getTransaction()->transactionCreateDateTimestamp;
+	public function getTransactionCreateDateTime() {
+		return $this->dateTimeFromData($this->getTransaction()->transactionCreateDateTimestamp);
 	}
 
 	public function getPurchaseID() {

@@ -34,8 +34,8 @@ class CompletePurchaseResponse extends AbstractResponse
         return (string) $this->getTransaction()->status;
     }
 
-    public function getStatusDateTimestamp(){
-        return (string) $this->getTransaction()->statusDateTimestamp;
+    public function getStatusDateTime(){
+        return $this->dateTimeFromData($this->getTransaction()->statusDateTimestamp);
     }
 
     public function getConsumerName(){
