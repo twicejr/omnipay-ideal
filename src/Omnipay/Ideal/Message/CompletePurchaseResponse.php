@@ -31,6 +31,7 @@ class CompletePurchaseResponse extends AbstractResponse
         throw new ErrorResponseException();
     }
 
+    //@todo: make this getTransactionReference? because... transactionID IS IDEAL REFERENCE!?
     public function getTransactionID(){
         return (string) $this->getTransaction()->transactionID;
     }
