@@ -21,6 +21,11 @@ class CompletePurchaseResponse extends AbstractResponse
         return isset($this->getData()->Transaction);
     }
 
+    public function isErrorResponse()
+    {
+        return $this->getData()->Transaction->status != 'Success';
+    }
+    
     public function getTransaction(){
         if ($this->isSuccessful()) return $this->getData()->Transaction;
         throw new ErrorResponseException();
