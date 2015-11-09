@@ -30,9 +30,8 @@ class CompletePurchaseResponse extends AbstractResponse
         if ($this->isSuccessful()) return $this->getData()->Transaction;
         throw new ErrorResponseException();
     }
-
-    //@todo: make this getTransactionReference? because... transactionID IS IDEAL REFERENCE!?
-    public function getTransactionID(){
+    
+    public function getTransactionReference(){
         return (string) $this->getTransaction()->transactionID;
     }
 
